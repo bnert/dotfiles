@@ -1,0 +1,8 @@
+export ZSH=/Users/brent/.oh-my-zsh
+export FZF_BASE=/usr/local/opt/fzf/bin/fzf
+
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+source $ZSH/oh-my-zsh.sh
+
+plugins=(git git-extras git-flow colored-man colorize github vagrant virtualenv virtualenvwrapper pip python brew osx zsh-syntax-highlighting npm docker django bower celery node sublime sudo supervisor web-search z)
+

@@ -1,6 +1,4 @@
 set nocompatible
-
-
 set clipboard=unnamed
 " set tabstop=2
 set expandtab
@@ -8,6 +6,9 @@ set shiftwidth=2
 set tabstop=2
 set number
 set smartindent
+set number
+set termguicolors
+colorscheme monokai
 
 " Plugins will be downloaded under the specified directory.
 call plug#begin('~/.vim/plugged')
@@ -28,5 +29,5 @@ Plug 'peitalin/vim-jsx-typescript'
 call plug#end()
 
 let g:jsx_ext_required = 0
-
+let g:go_version_warning = 0
 syntax on

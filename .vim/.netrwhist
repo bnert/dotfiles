@@ -1,6 +1,6 @@
 let g:netrw_dirhistmax  =10
 let g:netrw_dirhist_cnt =4
-let g:netrw_dirhist_1='/Users/brent/Documents/school/CS-Agile/FtpClient/FtpCli'
-let g:netrw_dirhist_2='/Users/brent/.config'
-let g:netrw_dirhist_3='/Users/brent/.config/ftpcli-410'
-let g:netrw_dirhist_4='/Users/brent/Documents/development/projects/dotmock/dotmock.cli/pkg/rest'
+let g:netrw_dirhist_1='/home/brent/apps/freepath-io-old'
+let g:netrw_dirhist_2='/home/brent/apps/freepath-io-old/third_party'
+let g:netrw_dirhist_3='/home/brent/apps/freepath-io-old/third_party/go'
+let g:netrw_dirhist_4='/home/brent/.vim'

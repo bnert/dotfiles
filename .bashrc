@@ -10,6 +10,7 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+alias gadd="git add"
 alias gstat="git status"
 alias gpush="git push"
 alias gcomm="git commit"

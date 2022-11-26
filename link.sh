@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+tld=$(git rev-parse --show-toplevel)
+kernel=$(uname -s)
+
+echo "unpacking fonts"
+if [[ "Linux" == "${kernel}" ]]; then
+  echo "unpacking linux fonts"
+  mkdir -p $HOME/.fonts
+  cp $tld/fonts/jetbrains-mono/fonts/ttf/* $HOME/.fonts/
+  if [ command -v fc-cache &> /dev/null ]; then
+    echo "refreshing font cache"
+    fc-cache -f -v
+  fi
+fi
+
+if [[ "Darwin" == "${kernel}" ]]; then
+  echo "unpacking macos fonts"
+  cp $tld/fonts/jetbrains-mono/fonts/ttf/* $HOME/Library/Fonts/
+fi
+
+echo "linking directories: kitty neovim"
+ln -sf $tld/.config/kitty/ $HOME/.config/kitty
+ln -sf $tld/.config/nvim/  $HOME/.config/nvim
+
+echo "linking files: tmux.conf"
+ln -sf $tld/.tmux.conf $HOME/.tmux.conf

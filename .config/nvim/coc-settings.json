@@ -1,0 +1,25 @@
+{
+  "coc.preferences.useQuickfixForLocations": true,
+  "codeLens.enable": true,
+  "codeLens.position": "eol",
+  "cSpell.language": "en-GB",
+  "suggest.snippetIndicator": "🍦",
+  "clojure-lsp.trace.server": "verbose",
+  "diagnostic.showUnused": true,
+  "diagnostic.showDeprecated": true,
+  "languageserver": {
+    "clojure-lsp": {
+      "command": "clojure-lsp",
+      "filetypes": ["clojure"],
+      "rootPatterns": ["project.clj", "deps.edn"],
+      "additionalSchemes": ["jar", "zipfile"],
+      "trace.server": "verbose",
+      "diagnostic.showUnused": true,
+      "diagnostic.showDeprecated": true,
+      "diagnostic.highlightPriority": 1000000,
+      "initializationOptions": {
+        "ignore-classpath-directories": true
+      }
+    }
+  }
+}

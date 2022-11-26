@@ -20,8 +20,15 @@ if [[ "Darwin" == "${kernel}" ]]; then
 fi
 
 echo "linking directories: kitty neovim"
-ln -sf $tld/.config/kitty/ $HOME/.config/kitty
-ln -sf $tld/.config/nvim/  $HOME/.config/nvim
+
+[ -d "$HOME/.config/kitty/" ] && [ ! -L "$HOME/.config/kitty" ] && rm -rf $HOME/.config/kitty/ || echo "kitty link exists"
+[ ! -L "$HOME/.config/kitty" ] && ln -sf $tld/.config/kitty/ $HOME/.config/kitty
+
+[ -d "$HOME/.config/nvim/" ] && [ ! -L "$HOME/.config/nvim" ] && rm -rf $HOME/.config/nvim/ || echo "nvim link exists"
+[ ! -L "$HOME/.config/nvim" ] && ln -sf $tld/.config/nvim/ $HOME/.config/nvim
 
 echo "linking files: tmux.conf"
 ln -sf $tld/.tmux.conf $HOME/.tmux.conf
+
+echo "linking bash profile"
+echo "source $tld/.bashrc" >> $HOME/.bashrc

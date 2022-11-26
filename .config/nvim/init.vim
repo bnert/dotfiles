@@ -26,14 +26,13 @@ set cursorline
 set ttyfast
 set relativenumber
 
+" plugins
+lua require('plugins')
+
 " File type
 augroup fastlane
   au BufNewFile,BufRead Fastfile set syntax=ruby
   au BufNewFile,BufRead Appfile set syntax=ruby
-augroup END
-
-augroup json
-  au BufNewFile,BufRead *.json setlocal noexpandtab shiftwidth=4 softtabstop=0
 augroup END
 
 augroup golang
@@ -44,16 +43,17 @@ augroup elixir
   au BufNewFile,Bufread *.exs set syntax=elixir
 augroup END
 
+
 " Plugins
-call plug#begin("~/.vim/plugged")
-  Plug 'APZelos/blamer.nvim'
-  Plug 'luochen1990/rainbow'
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  Plug 'sainnhe/sonokai'
-  Plug 'scrooloose/nerdtree'
-  Plug 'sheerun/vim-polyglot'
-call plug#end()
+" call plug#begin("~/.vim/plugged")
+"   Plug 'APZelos/blamer.nvim'
+"   Plug 'luochen1990/rainbow'
+"   Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+"   Plug 'sainnhe/sonokai'
+"   Plug 'scrooloose/nerdtree'
+"   Plug 'sheerun/vim-polyglot'
+" call plug#end()
 
 " Global Conf
 let g:blamer_enabled = 1

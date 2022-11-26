@@ -1,12 +1,17 @@
 {
-  "coc.preferences.useQuickfixForLocations": true,
-  "codeLens.enable": true,
-  "codeLens.position": "eol",
   "cSpell.language": "en-GB",
   "suggest.snippetIndicator": "🍦",
-  "clojure-lsp.trace.server": "verbose",
   "diagnostic.showUnused": true,
   "diagnostic.showDeprecated": true,
+  "coc": {
+    "preferences": {
+      "useQuickfixforLocations": true
+    }
+  },
+  "codeLens": {
+    "enable": true,
+    "position": "eol",
+  },
   "languageserver": {
     "clojure-lsp": {
       "command": "clojure-lsp",
@@ -20,6 +25,12 @@
       "initializationOptions": {
         "ignore-classpath-directories": true
       }
-    }
+    },
+    "go": {
+      "command": "gopls",
+      "filetypes": ["go"],
+      "rootPatterns": ["go.mod"],
+      "trace.server": "verbose",
+    },
   }
 }

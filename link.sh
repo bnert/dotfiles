@@ -31,4 +31,7 @@ echo "linking files: tmux.conf"
 ln -sf $tld/.tmux.conf $HOME/.tmux.conf
 
 echo "linking bash profile"
+echo -e "# added by bnert/dotfiles\n\n"
+echo "source $tld/.bash_plugins/git-prompt.sh" >> $HOME/.bashrc
 echo "source $tld/.bashrc" >> $HOME/.bashrc
+echo "source $tld/ps1.sh" >> $HOME/.bashrc

@@ -70,3 +70,11 @@ let g:sonokai_style = 'andromeda'
 let g:sonokai_enable_italic = 1
 let g:sonokai_transparent_background = 1
 colorscheme sonokai
+
+" coc
+"" Add support for selecting suggestion
+inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+
+"" Add support for selecting first when none selected
+inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+

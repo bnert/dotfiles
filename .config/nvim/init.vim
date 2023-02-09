@@ -25,18 +25,29 @@ set syntax=on
 set cursorline
 set ttyfast
 set relativenumber
+set list
+set listchars=tab:⍿·,trail:·
 
 " plugins
 lua require('plugins')
 
 " File type
 augroup fastlane
-  au BufNewFile,BufRead Fastfile set syntax=ruby
   au BufNewFile,BufRead Appfile set syntax=ruby
+  au BufNewFile,BufRead Fastfile set syntax=ruby
+  au BufNewFile,BufRead Matchfile set syntax=ruby
+augroup END
+
+augroup brew
+  au BufNewFile,BufRead Brewfile set syntax=ruby
 augroup END
 
 augroup golang
   au BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=0
+augroup END
+
+augroup json
+  au BufNewFile,BufRead *.json setlocal noexpandtab tabstop=2 shiftwidth=2 softtabstop=0
 augroup END
 
 augroup elixir

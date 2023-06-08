@@ -1,0 +1,5 @@
+{:lib io.github.clj-holmes/clj-watson,
+ :coord
+ {:git/tag "v4.1.2",
+  :git/sha "eb1549248884c70ee6d67a1d37180ad83fc91eaf",
+  :git/url "https://github.com/clj-holmes/clj-watson.git"}}

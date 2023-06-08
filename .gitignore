@@ -1,1 +1,3 @@
 .config/nvim/plugin/packer_compiled.lua
+.clojure/.cpcache
+.clojure/.clj-kondo/.cache

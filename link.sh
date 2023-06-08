@@ -19,13 +19,27 @@ if [[ "Darwin" == "${kernel}" ]]; then
   cp $tld/fonts/jetbrains-mono/fonts/ttf/* $HOME/Library/Fonts/
 fi
 
-echo "linking directories: kitty neovim"
+echo "linking directories: kitty neovim .clojure"
+
+
+# Kitty config
 
 [ -d "$HOME/.config/kitty/" ] && [ ! -L "$HOME/.config/kitty" ] && rm -rf $HOME/.config/kitty/ || echo "kitty link exists"
 [ ! -L "$HOME/.config/kitty" ] && ln -sf $tld/.config/kitty/ $HOME/.config/kitty
 
+
+## neovim config
+
 [ -d "$HOME/.config/nvim/" ] && [ ! -L "$HOME/.config/nvim" ] && rm -rf $HOME/.config/nvim/ || echo "nvim link exists"
 [ ! -L "$HOME/.config/nvim" ] && ln -sf $tld/.config/nvim/ $HOME/.config/nvim
+
+
+## .clojure directory
+
+[ -d "$HOME/.clojure" ] && [ ! -L "$HOME/.clojure" ] && rm -rf $HOME/.clojure || echo ".clojure link exists"
+
+[ ! -L "$HOME/.clojure" ] && ln -sf $tld/.clojure $HOME/.clojure
+
 
 echo "linking files: tmux.conf"
 ln -sf $tld/.tmux.conf $HOME/.tmux.conf
@@ -36,3 +50,4 @@ echo -e "# added by bnert/dotfiles\n" >> $HOME/.bashrc
 echo "source $tld/.bash_plugins/git-prompt.sh" >> $HOME/.bashrc
 echo "source $tld/.bashrc" >> $HOME/.bashrc
 echo "source $tld/ps1.sh" >> $HOME/.bashrc
+

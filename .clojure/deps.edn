@@ -3,15 +3,22 @@
                "clojars" {:url "https://repo.clojars.org/"}}
  :aliases
  {; -- common packages I use
-  :malli     {:override-deps {metosin/malli "0.11.0"}}
+  :malli     {:override-deps {metosin/malli {:mvn/version "0.11.0"}}}
   :jsonista  {:override-deps {metosin/jsonista {:mvn/version "0.3.7"}}}
   :hato      {:override-deps {hato/hato {:mvn/version "0.9.0"}}}
 
   ; -- repl
   :repl/nrepl {:extra-deps {nrepl/nrepl {:mvn/version "0.9.0"}}
                :main-opts  ["-m" "nrepl.cmdline"]}
-  :repl/rebl  {:extra-deps {com.bhauman/rebel-readline {:mvn/version "0.1.4"}}
-               :main-opts  ["-m" "rebel-readline.main"]}
+  ; -- usage: clj -M:repl/rebl
+  :repl/rebl {:extra-deps {nrepl/nrepl {:mvn/version "0.9.0"}
+                           com.bhauman/rebel-readline {:mvn/version "0.1.4"}
+                           cider/cider-nrepl {:mvn/version "0.30.0"}}
+               :main-opts  ["-e" "(apply require clojure.main/repl-requires)"
+                            "--main" "nrepl.cmdline"
+                            "--middleware" "[cider.nrepl/cider-middleware]"
+                            "--interactive"
+                            "-f" "rebel-readline.main/-main"]}
 
   ; -- dev help
   :old   {:extra-deps {olical/depot {:mvn/version "2.3.0"}}

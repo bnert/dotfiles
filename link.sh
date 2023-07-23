@@ -12,6 +12,16 @@ if [[ "Linux" == "${kernel}" ]]; then
     echo "refreshing font cache"
     fc-cache -f -v
   fi
+
+  if [[ $TERM == "xterm-kitty" ]]; then
+    mkdir -p $HOME/.terminfo/x/
+    if [[ -f "/usr/share/terminfo/x/xterm-kitty" && ! -L $HOME/.terminfo/x/xterm-kitty ]]; then
+      echo "setting up kitty terminfo"
+      ln -s /usr/share/terminfo/x/xterm-kitty $HOME/.terminfo/x/xterm-kitty
+    else
+      echo "kitty terminfo already setup"
+    fi
+  fi
 fi
 
 if [[ "Darwin" == "${kernel}" ]]; then

@@ -21,4 +21,5 @@ return require('packer').startup(function(use)
   use 'scrooloose/nerdtree'
   use 'Olical/conjure'
   use { "catppuccin/nvim", as = "catppuccin" }
+  use 'adelarsq/neofsharp.vim'
 end)

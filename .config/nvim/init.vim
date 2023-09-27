@@ -53,6 +53,8 @@ augroup elixir
   au BufNewFile,Bufread *.exs set syntax=elixir
 augroup END
 
+autocmd BufNewFile,BufRead *.fs,*.fsx,*.fsi set filetype=fsharp
+
 " plugins
 lua require('plugins')
 

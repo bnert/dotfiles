@@ -10,7 +10,6 @@ return require('packer').startup(function(use)
   -- Post-install/update hook with neovim command
   use 'APZelos/blamer.nvim'
   use 'luochen1990/rainbow'
-  use { 'neoclide/coc.nvim', branch = 'release' }
   use {
     'nvim-treesitter/nvim-treesitter',
     run = function()
@@ -18,8 +17,31 @@ return require('packer').startup(function(use)
         ts_update()
     end,
   }
-  use 'scrooloose/nerdtree'
+  use {
+    'neoclide/coc.nvim',
+    branch = 'release'
+  }
+  -- use 'scrooloose/nerdtree'
   use 'Olical/conjure'
-  use { "catppuccin/nvim", as = "catppuccin" }
+  use {
+    "catppuccin/nvim",
+    as = "catppuccin"
+  }
   use 'adelarsq/neofsharp.vim'
+  use {
+    "julienvincent/nvim-paredit",
+    config = function()
+        require("nvim-paredit").setup()
+    end,
+  }
+  use 'preservim/nerdtree'
+  -- use {
+  --   "nvim-neo-tree/neo-tree.nvim",
+  --   branch = "v3.x",
+  --   requires = { 
+  --     "nvim-lua/plenary.nvim",
+  --     "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+  --     "MunifTanjim/nui.nvim",
+  --   }
+  -- }
 end)

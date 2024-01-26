@@ -23,6 +23,7 @@ set number
 set wildmode=longest,list
 set cc=80
 set syntax=on
+set nowrap
 set cursorline
 set ttyfast
 set relativenumber
@@ -82,6 +83,7 @@ inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>
 let g:mapleader=";"
 let g:maplocalleader=";"
 
+let NERDTreeShowHidden=1
 nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>

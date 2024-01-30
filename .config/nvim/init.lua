@@ -76,6 +76,7 @@ vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>fr', builtin.lsp_references, {})
 vim.keymap.set('n', '<leader>fd', builtin.lsp_definitions, {})
+vim.keymap.set('n', '<leader>fi', builtin.lsp_implementations, {})
 
 local lsp = require 'lspconfig'
 lsp.clojure_lsp.setup{}

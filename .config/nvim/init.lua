@@ -1,12 +1,10 @@
 vim.g.mapleader = ";"
 vim.g.maplocalleader = ";"
-
 vim.o.number = true
 vim.o.list = true
 vim.o.listchars = "tab:⍿·,trail:·"
-vim.o.cc = 80
+vim.o.colorcolumn = "80"
 vim.o.syntax = 'on'
-vim.o.nowrap = true
 vim.o.cursorline = true
 vim.o.ttyfast = true
 vim.o.list = true
@@ -15,6 +13,7 @@ vim.o.autoindent = true
 vim.o.tabstop = 2
 vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
+vim.wo.wrap = true
 
 
 -- lazy nvim
@@ -122,6 +121,8 @@ require("lazy").setup({
 })
 
 
+
+
 require("rainbow-delimiters")
 require("telescope").load_extension("file_browser")
 
@@ -134,6 +135,7 @@ vim.keymap.set('n', '<leader>fr', builtin.lsp_references, {})
 vim.keymap.set('n', '<leader>fd', builtin.lsp_definitions, {})
 vim.keymap.set('n', '<leader>fi', builtin.lsp_implementations, {})
 vim.keymap.set('n', '<leader>tn', ':tabnew<CR>', {})
+
 
 vim.keymap.set('n', '<leader>fp',
   function()
@@ -158,6 +160,10 @@ lsp.eslint.setup({
   }
 })
 
+lsp.pyright.setup({
+  capabilities = _capabilities,
+})
+
 lsp.tailwindcss.setup({
   capabilities = _capabilities,
 })
@@ -166,7 +172,28 @@ lsp.tsserver.setup({
   capabilities = _capabilities,
 })
 
+lsp.terraformls.setup({
+  capabilities = _capabilities,
+})
+
 lsp.zls.setup({
   capabilities = _capabilities,
 })
 
+vim.keymap.set(
+  'n',
+  '<leader>rr',
+  ":ConjureEval (try (apply (requiring-resolve 'clojure.tools.namespace.repl/refresh) []) (catch Exception e (println \"unable to refresh\")))<CR>"
+)
+
+vim.keymap.set(
+  'n',
+  '<leader>rl',
+  ":ConjureEval (try (apply (requiring-resolve 'clj-reload.core/reload) []) (catch Exception e (println \"unable to reload\")))<CR>"
+)
+
+vim.keymap.set(
+  'n',
+  '<leader>rx',
+  ":ConjureEval (try (user/reload!) (catch Exception e (println \"unable to alias (reload!)\") e))<CR>"
+)

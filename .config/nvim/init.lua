@@ -166,3 +166,7 @@ lsp.tsserver.setup({
   capabilities = _capabilities,
 })
 
+lsp.zls.setup({
+  capabilities = _capabilities,
+})
+

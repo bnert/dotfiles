@@ -1,3 +1,0 @@
-# Installing editor via apt, given it can be broken under nix
-# due to needing to manually manage/install opengl drivers
-kitty

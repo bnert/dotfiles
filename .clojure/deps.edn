@@ -3,12 +3,7 @@
                "clojars" {:url "https://repo.clojars.org/"}
                "ossrh-snapshots" {:url "https://s01.oss.sonatype.org/content/repositories/snapshots"}}
  :aliases
- {; -- common packages I use
-  :malli     {:override-deps {metosin/malli {:mvn/version "0.11.0"}}}
-  :jsonista  {:override-deps {metosin/jsonista {:mvn/version "0.3.7"}}}
-  :hato      {:override-deps {hato/hato {:mvn/version "0.9.0"}}}
-
-  ; -- repl
+ {; -- repl
   :repl/nrepl {:extra-deps {nrepl/nrepl {:mvn/version "0.9.0"}}
                :main-opts  ["-m" "nrepl.cmdline"]}
   ; -- usage: clj -M:repl/conjure
@@ -26,6 +21,8 @@
                             "--middleware" "[cider.nrepl/cider-middleware]"
                             "--interactive"
                             "-f" "rebel-readline.main/-main"]}
+  :+/portal {:extra-deps {djblue/portal {:mvn/version "0.57.3"}}}
+  :+/reload {:extra-deps {io.github.tonsky/clj-reload {:mvn/version "0.7.0"}}}
 
   ; -- dev help
   :old   {:extra-deps {olical/depot {:mvn/version "2.3.0"}}
@@ -67,7 +64,5 @@
   ;; current 1.12 release is Alpha 3:
   ;; - the functionality formerly requiring the :add-libs alias for the
   ;;   branch of tools.deps.alpha is now a part of clojure itself!
-  :1.12 {:override-deps {org.clojure/clojure {:mvn/version "1.12.0-alpha3"}}}
-  ;; master is currently 1.12:
-  :master {:override-deps {org.clojure/clojure {:mvn/version "1.12.0-master-SNAPSHOT"}}}}}
+  :1.12 {:override-deps {org.clojure/clojure {:mvn/version "1.12.0"}}}}}
 

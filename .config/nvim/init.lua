@@ -1,5 +1,7 @@
 vim.g.mapleader = ";"
 vim.g.maplocalleader = ";"
+vim.g['conjure#client#sql#stdio#command'] = 'psql -h localhost -U blogger -d postgres'
+vim.g['conjure#client_on_load'] = false
 vim.o.number = true
 vim.o.list = true
 vim.o.listchars = "tab:⍿·,trail:·"
@@ -33,8 +35,83 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   "HiPhish/rainbow-delimiters.nvim",
-  "neovim/nvim-lspconfig",
-  "Olical/conjure",
+  {
+    "neovim/nvim-lspconfig",
+    config = function()
+      local lsp = require('lspconfig')
+      -- vim.lsp.set_log_level("debug")
+      local _capabilities = vim.lsp.protocol.make_client_capabilities()
+
+      lsp.clojure_lsp.setup({
+        capabilities = _capabilities
+      })
+
+      lsp.eslint.setup({
+        capabilities = _capabilities,
+        settings = {
+          packageManager = 'npm'
+        }
+      })
+
+      lsp.pyright.setup({
+        capabilities = _capabilities,
+      })
+
+      lsp.tailwindcss.setup({
+        capabilities = _capabilities,
+      })
+
+      lsp.tsserver.setup({
+        capabilities = _capabilities,
+      })
+
+      lsp.terraformls.setup({
+        capabilities = _capabilities,
+      })
+
+      lsp.zls.setup({
+        capabilities = _capabilities,
+      })
+
+      lsp.crystalline.setup({
+        capabilities = _capabilities,
+      })
+    end
+  },
+  {
+    "Olical/conjure",
+    config = function()
+      vim.keymap.set(
+        'n',
+        '<leader>rr',
+        ":ConjureEval (try (apply (requiring-resolve 'clojure.tools.namespace.repl/refresh) []) (catch Exception e (println \"unable to refresh\")))<CR>"
+      )
+
+      vim.keymap.set(
+        'n',
+        '<leader>rl',
+        ":ConjureEval (try (apply (requiring-resolve 'clj-reload.core/reload) []) (catch Exception e (println \"unable to reload\")))<CR>"
+      )
+
+      vim.keymap.set(
+        'n',
+        '<leader>pr',
+        ":ConjureEval (try (apply (requiring-resolve 'clj-reload.core/reload) [{:dirs [\"bases\" \"components\" \"projects\"], :no-reload '#{user}, :throw false}]) (catch Exception e (println \"unable to reload\" e)))<CR>"
+      )
+
+      vim.keymap.set(
+        'n',
+        '<leader>rx',
+        ":ConjureEval (try ((requiring-resolve 'user/reload!)) (catch Exception e (println \"unable to alias (reload!)\") e))<CR>"
+      )
+
+      vim.keymap.set(
+        'n',
+        '<leader>rX',
+        ":ConjureEval (try (apply (requiring-resolve 'user/reload!) [:init]) (catch Exception e (println \"unable to alias (reload!)\") e))<CR>"
+      )
+    end
+  },
   {
     "catppuccin/nvim",
     name = "catppuccin",
@@ -61,10 +138,29 @@ require("lazy").setup({
   {
     "nvim-telescope/telescope.nvim", tag = "0.1.5",
     dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      local builtin = require('telescope.builtin')
+      vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+      vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+      vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+      vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+      vim.keymap.set('n', '<leader>fr', builtin.lsp_references, {})
+      vim.keymap.set('n', '<leader>fd', builtin.lsp_definitions, {})
+      vim.keymap.set('n', '<leader>fi', builtin.lsp_implementations, {})
+      vim.keymap.set('n', '<leader>tn', ':tabnew<CR>', {})
+    end
   },
   {
     "nvim-telescope/telescope-file-browser.nvim",
-    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim"}
+    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+    config = function()
+      require("telescope").load_extension("file_browser")
+      vim.keymap.set('n', '<leader>fp',
+        function()
+          require("telescope").extensions.file_browser.file_browser()
+        end
+      )
+    end
   },
   {
     "julienvincent/nvim-paredit",
@@ -120,80 +216,5 @@ require("lazy").setup({
   },
 })
 
-
-
-
 require("rainbow-delimiters")
-require("telescope").load_extension("file_browser")
 
-local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-vim.keymap.set('n', '<leader>fr', builtin.lsp_references, {})
-vim.keymap.set('n', '<leader>fd', builtin.lsp_definitions, {})
-vim.keymap.set('n', '<leader>fi', builtin.lsp_implementations, {})
-vim.keymap.set('n', '<leader>tn', ':tabnew<CR>', {})
-
-
-vim.keymap.set('n', '<leader>fp',
-  function()
-    require("telescope").extensions.file_browser.file_browser()
-  end
-)
-
-local lsp = require('lspconfig')
-
-vim.lsp.set_log_level("debug")
-
-local _capabilities = vim.lsp.protocol.make_client_capabilities()
-
-lsp.clojure_lsp.setup({
-  capabilities = _capabilities
-})
-
-lsp.eslint.setup({
-  capabilities = _capabilities,
-  settings = {
-    packageManager = 'npm'
-  }
-})
-
-lsp.pyright.setup({
-  capabilities = _capabilities,
-})
-
-lsp.tailwindcss.setup({
-  capabilities = _capabilities,
-})
-
-lsp.tsserver.setup({
-  capabilities = _capabilities,
-})
-
-lsp.terraformls.setup({
-  capabilities = _capabilities,
-})
-
-lsp.zls.setup({
-  capabilities = _capabilities,
-})
-
-vim.keymap.set(
-  'n',
-  '<leader>rr',
-  ":ConjureEval (try (apply (requiring-resolve 'clojure.tools.namespace.repl/refresh) []) (catch Exception e (println \"unable to refresh\")))<CR>"
-)
-
-vim.keymap.set(
-  'n',
-  '<leader>rl',
-  ":ConjureEval (try (apply (requiring-resolve 'clj-reload.core/reload) []) (catch Exception e (println \"unable to reload\")))<CR>"
-)
-
-vim.keymap.set(
-  'n',
-  '<leader>rx',
-  ":ConjureEval (try (user/reload!) (catch Exception e (println \"unable to alias (reload!)\") e))<CR>"
-)

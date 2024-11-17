@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ command -v nvim &> /dev/null ]; then
+if command -v nvim &> /dev/null; then
   export EDITOR="nvim"
 else
   export EDITOR="vim"
@@ -10,6 +10,7 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+alias tl="git status > /dev/null && cd \$(git rev-parse --show-toplevel)"
 alias gadd="git add"
 alias gstat="git status"
 alias gpush="git push"

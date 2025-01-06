@@ -29,16 +29,18 @@ if [[ "Darwin" == "${kernel}" ]]; then
   cp $tld/fonts/jetbrains-mono/fonts/ttf/* $HOME/Library/Fonts/
 fi
 
-echo "linking directories: kitty neovim .clojure"
+echo "linking directories: ghostty kitty neovim .clojure"
 
-# Kitty config
+## ghostty config
+[ -d "$HOME/.config/ghostty/" ] && [ ! -L "$HOME/.config/ghostty" ] && rm -rf $HOME/.config/ghostty/ || echo "ghostty link exists"
+[ ! -L "$HOME/.config/ghostty" ] && ln -sf $tld/.config/ghostty/ $HOME/.config/ghostty
 
+
+## kitty config
 [ -d "$HOME/.config/kitty/" ] && [ ! -L "$HOME/.config/kitty" ] && rm -rf $HOME/.config/kitty/ || echo "kitty link exists"
 [ ! -L "$HOME/.config/kitty" ] && ln -sf $tld/.config/kitty/ $HOME/.config/kitty
 
-
 ## neovim config
-
 [ -d "$HOME/.config/nvim/" ] && [ ! -L "$HOME/.config/nvim" ] && rm -rf $HOME/.config/nvim/ || echo "nvim link exists"
 [ ! -L "$HOME/.config/nvim" ] && ln -sf $tld/.config/nvim/ $HOME/.config/nvim
 
@@ -49,9 +51,7 @@ echo "linking directories: kitty neovim .clojure"
 
 
 ## .clojure directory
-
 [ -d "$HOME/.clojure" ] && [ ! -L "$HOME/.clojure" ] && rm -rf $HOME/.clojure || echo ".clojure link exists"
-
 [ ! -L "$HOME/.clojure" ] && ln -sf $tld/.clojure $HOME/.clojure
 
 echo "linking files: tmux.conf"

@@ -53,6 +53,10 @@ require("lazy").setup({
         }
       })
 
+      lsp.hls.setup({
+        capabilities = _capabilities,
+      })
+
       lsp.pyright.setup({
         capabilities = _capabilities,
       })
@@ -113,14 +117,17 @@ require("lazy").setup({
     end
   },
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    priority = 1000,
-    lazy = false,
-    config = function()
-      vim.cmd.colorscheme("catppuccin-latte")
-    end,
+    "rose-pine/neovim", name = "rose-pine-dawn"
   },
+  -- {
+  --   "catppuccin/nvim",
+  --   name = "catppuccin",
+  --   priority = 1000,
+  --   lazy = false,
+  --   config = function()
+  --     vim.cmd.colorscheme("catppuccin-latte")
+  --   end,
+  -- },
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
@@ -128,12 +135,50 @@ require("lazy").setup({
       local configs = require("nvim-treesitter.configs")
 
       configs.setup({
-          ensure_installed = { "clojure", "go", "javascript", "html", "typescript" },
+          ensure_installed = { "clojure", "go", "javascript", "html", "typescript", "haskell" },
           sync_install = false,
           -- highlight = { enable = true },
           indent = { enable = true },
       })
     end
+  },
+  {
+    "folke/trouble.nvim",
+    version = "v3.6.0",
+    cmd = "Trouble",
+    opts = {},
+    keys = {
+      {
+        "<leader>xx",
+        "<cmd>Trouble diagnostics toggle<cr>",
+        desc = "Diagnostics (Trouble)",
+      },
+      {
+        "<leader>xX",
+        "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+        desc = "Buffer Diagnostics (Trouble)",
+      },
+      {
+        "<leader>cs",
+        "<cmd>Trouble symbols toggle focus=false<cr>",
+        desc = "Symbols (Trouble)",
+      },
+      {
+        "<leader>cl",
+        "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+        desc = "LSP Definitions / references / ... (Trouble)",
+      },
+      {
+        "<leader>xL",
+        "<cmd>Trouble loclist toggle<cr>",
+        desc = "Location List (Trouble)",
+      },
+      {
+        "<leader>xQ",
+        "<cmd>Trouble qflist toggle<cr>",
+        desc = "Quickfix List (Trouble)",
+      },
+    },
   },
   {
     "nvim-telescope/telescope.nvim", tag = "0.1.5",
@@ -164,9 +209,7 @@ require("lazy").setup({
   },
   {
     "julienvincent/nvim-paredit",
-    config = function()
-      require("nvim-paredit").setup()
-    end,
+    opts = {},
   },
   {
     "williamboman/mason.nvim",

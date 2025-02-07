@@ -18,6 +18,22 @@ vim.o.shiftwidth = 2
 vim.wo.wrap = true
 
 
+function thunkquire(module, path)
+  return function()
+    local m = require(module)
+    if type(path) == "string" then
+      path = { path }
+    end
+
+    for _, p in pairs(path) do
+      m = m[p]
+    end
+
+    return m()
+  end
+end
+
+
 -- lazy nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -34,87 +50,82 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  "HiPhish/rainbow-delimiters.nvim",
+  {
+    "HiPhish/rainbow-delimiters.nvim",
+  },
   {
     "neovim/nvim-lspconfig",
     config = function()
       local lsp = require('lspconfig')
       -- vim.lsp.set_log_level("debug")
       local _capabilities = vim.lsp.protocol.make_client_capabilities()
+      local mason_bin = vim.fn.stdpath('data') .. '/mason/bin/'
 
       lsp.clojure_lsp.setup({
         capabilities = _capabilities
       })
 
       lsp.eslint.setup({
+        cmd = { mason_bin .. 'vscode-eslint-language-server', '--stdio'},
         capabilities = _capabilities,
         settings = {
           packageManager = 'npm'
         }
       })
 
-      lsp.hls.setup({
-        capabilities = _capabilities,
-      })
-
       lsp.pyright.setup({
+        cmd = { mason_bin .. 'pyright' },
         capabilities = _capabilities,
       })
 
       lsp.tailwindcss.setup({
+        cmd = { mason_bin .. 'tailwindcss-language-server', "--stdio" },
         capabilities = _capabilities,
       })
 
-      lsp.tsserver.setup({
+      lsp.ts_ls.setup({
+        cmd = { mason_bin .. 'typescript-language-server', "--stdio" },
         capabilities = _capabilities,
       })
 
       lsp.terraformls.setup({
+        cmd = { mason_bin .. 'terraform-ls' },
         capabilities = _capabilities,
       })
 
       lsp.zls.setup({
+        cmd = { mason_bin .. 'zls' },
         capabilities = _capabilities,
       })
 
       lsp.crystalline.setup({
+        cmd = { mason_bin .. 'crystalline' },
         capabilities = _capabilities,
       })
     end
   },
   {
+    "poljar/typos.nvim",
+    opts = {}
+  },
+  {
+    "nvimtools/none-ls.nvim",
+    dependencies = { "mason.nvim", "typos.nvim" },
+  },
+  {
     "Olical/conjure",
-    config = function()
-      vim.keymap.set(
-        'n',
-        '<leader>rr',
-        ":ConjureEval (try (apply (requiring-resolve 'clojure.tools.namespace.repl/refresh) []) (catch Exception e (println \"unable to refresh\")))<CR>"
-      )
-
-      vim.keymap.set(
-        'n',
-        '<leader>rl',
-        ":ConjureEval (try (apply (requiring-resolve 'clj-reload.core/reload) []) (catch Exception e (println \"unable to reload\")))<CR>"
-      )
-
-      vim.keymap.set(
-        'n',
-        '<leader>pr',
-        ":ConjureEval (try (apply (requiring-resolve 'clj-reload.core/reload) [{:dirs [\"bases\" \"components\" \"projects\"], :no-reload '#{user}, :throw false}]) (catch Exception e (println \"unable to reload\" e)))<CR>"
-      )
-
-      vim.keymap.set(
-        'n',
-        '<leader>rx',
-        ":ConjureEval (try ((requiring-resolve 'user/reload!)) (catch Exception e (println \"unable to alias (reload!)\") e))<CR>"
-      )
-
-      vim.keymap.set(
-        'n',
-        '<leader>rX',
-        ":ConjureEval (try (apply (requiring-resolve 'user/reload!) [:init]) (catch Exception e (println \"unable to alias (reload!)\") e))<CR>"
-      )
-    end
+    keys = {
+      {
+        "<leader>rr",
+        "<cmd>ConjureEval (try (apply (requiring-resolve 'clojure.tools.namespace.repl/refresh) []) (catch Exception e (println \"unable to refresh\")))<cr>",
+        desc = "Refresh repl using tools.namespace",
+      },
+      {
+        "<leader>rl",
+        "<cmd>ConjureEval (try (apply (requiring-resolve 'clj-reload.core/reload) []) (catch Exception e (println \"unable to reload\")))<cr>",
+        desc = "Refresh repl using clj-reload"
+      }
+    },
   },
   {
     "rose-pine/neovim",
@@ -123,15 +134,6 @@ require("lazy").setup({
       vim.cmd("colorscheme rose-pine-dawn")
     end
   },
-  -- {
-  --   "catppuccin/nvim",
-  --   name = "catppuccin",
-  --   priority = 1000,
-  --   lazy = false,
-  --   config = function()
-  --     vim.cmd.colorscheme("catppuccin-latte")
-  --   end,
-  -- },
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
@@ -185,30 +187,63 @@ require("lazy").setup({
     },
   },
   {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      -- "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+      -- {"3rd/image.nvim", opts = {}}, -- Optional image support in preview window: See `# Preview Mode` for more information
+    },
+    keys = {
+      {
+        "<leader>tt",
+        "<cmd>Neotree<cr>",
+        desc = "Open neotree"
+      }
+    }
+  },
+  {
     "nvim-telescope/telescope.nvim", tag = "0.1.5",
     dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      local builtin = require('telescope.builtin')
-      vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-      vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-      vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-      vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-      vim.keymap.set('n', '<leader>fr', builtin.lsp_references, {})
-      vim.keymap.set('n', '<leader>fd', builtin.lsp_definitions, {})
-      vim.keymap.set('n', '<leader>fi', builtin.lsp_implementations, {})
-      vim.keymap.set('n', '<leader>tn', ':tabnew<CR>', {})
-    end
+    keys = {
+      {
+        "<leader>ff",
+        thunkquire("telescope.builtin", "find_files")
+      },
+      {
+        "<leader>fg",
+        thunkquire("telescope.builtin", "live_grep")
+      },
+      {
+        "<leader>fb",
+        thunkquire("telescope.builtin", "buffers")
+      },
+      {
+        "<leader>fr",
+        thunkquire("telescope.builtin", "lsp_references")
+      },
+      {
+        "<leader>fd",
+        thunkquire("telescope.builtin", "lsp_definitions")
+      },
+      {
+        "<leader>fi",
+        thunkquire("telescope.builtin", "lsp_implementations")
+      },
+    }
   },
   {
     "nvim-telescope/telescope-file-browser.nvim",
     dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+    keys = {
+      {
+        '<leader>fp',
+        thunkquire("telescope", { "extensions", "file_browser", "file_browser" })
+      }
+    },
     config = function()
       require("telescope").load_extension("file_browser")
-      vim.keymap.set('n', '<leader>fp',
-        function()
-          require("telescope").extensions.file_browser.file_browser()
-        end
-      )
     end
   },
   {
@@ -217,29 +252,48 @@ require("lazy").setup({
   },
   {
     "williamboman/mason.nvim",
-    cmd = { "Mason", "MasonInstall", "MasonInstallAll", "MasonUpdate" },
-    opts = function() 
-      return {
-        ensure_installed = {
-          "clj-kondo",
-          "clojure-lsp",
-          -- "eslint-lsp", manually installed npm install -g vscode-langservers-extracted@4.8.0
-          "tailwindcss-language-server",
-          "typescript-language-server"
-        },
-        max_concurrent_installers = 10,
+    cmd = {
+      "Mason",
+      "MasonInstall",
+      "MasonInstallAll",
+      "MasonUpdate"
+    },
+    keys = {
+      {
+        "<leader>mi<cr>",
+        "<cmd>MasonInstallAll<cr>",
+        desc = "Mason install"
+      },
+      {
+        "<leader>mu<cr>",
+        "<cmd>MasonUpdate<cr>",
+        desc = "Mason update"
       }
-    end,
+    },
+    opts = {
+      ensure_installed = {
+        "clj-kondo",
+        "clojure-lsp",
+        "eslint-lsp",
+        "haskell-language-server",
+        "prettier",
+        "pyright",
+        "tailwindcss-language-server",
+        "terraform-ls",
+        "typescript-language-server",
+        "zls"
+      },
+      max_concurrent_installers = 10,
+    },
     config = function(_, opts)
       -- dofile(vim.g.base46_cache .. "mason")
-      require("mason").setup(opts)
+      -- require("mason").setup(opts)
 
-      -- custom nvchad cmd to install all mason binaries listed
+      -- custom cmd to install all mason binaries listed
       vim.api.nvim_create_user_command("MasonInstallAll", function()
         if opts.ensure_installed and #opts.ensure_installed > 0 then
           vim.cmd "Mason"
           local mr = require("mason-registry")
-
           mr.refresh(function()
             for _, tool in ipairs(opts.ensure_installed) do
               local p = mr.get_package(tool)
@@ -256,10 +310,8 @@ require("lazy").setup({
   },
   {
     "williamboman/mason-lspconfig.nvim",
-    config = function()
-      require("mason-lspconfig").setup()
-    end,
-    dependencies = { "williamboman/mason.nvim" }
+    opts = {},
+    dependencies = { "williamboman/mason.nvim" },
   },
   {
     "sindrets/diffview.nvim",
@@ -278,9 +330,8 @@ require("lazy").setup({
     "nvimtools/none-ls.nvim",
     opts = {
       on_attach = function(client, bufnr)
-
         if client.supports_method("textDocument/formatting") then
-          vim.keymap.set("n", "<leader>pf", function()
+          vim.keymap.set("n", "<leader>lf", function()
             vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
           end, { buffer = bufnr, desc = "[lsp] format" })
 
@@ -301,7 +352,7 @@ require("lazy").setup({
         end
 
         if client.supports_method("textDocument/rangeFormatting") then
-          vim.keymap.set("x", "<leader>pf", function()
+          vim.keymap.set("x", "<leader>lf", function()
             vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
           end, { buffer = bufnr, desc = "[lsp] format" })
         end
@@ -309,6 +360,4 @@ require("lazy").setup({
     }
   }
 })
-
-require("rainbow-delimiters")
 

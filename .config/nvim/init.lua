@@ -1,6 +1,6 @@
 vim.g.mapleader = ";"
 vim.g.maplocalleader = ";"
-vim.g['conjure#client#sql#stdio#command'] = 'psql -h localhost -U blogger -d postgres'
+-- vim.g['conjure#client#sql#stdio#command'] = 'psql -h localhost -U blogger -d postgres'
 vim.g['conjure#client_on_load'] = false
 vim.o.number = true
 vim.o.list = true
@@ -18,7 +18,7 @@ vim.o.shiftwidth = 2
 vim.wo.wrap = true
 
 
-function thunkquire(module, path)
+local function thunkquire(module, path)
   return function()
     local m = require(module)
     if type(path) == "string" then
@@ -36,6 +36,8 @@ end
 
 -- lazy nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+
+---@diagnostic disable-next-line:undefined-field
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
     "git",
@@ -59,58 +61,83 @@ require("lazy").setup({
       local lsp = require('lspconfig')
       -- vim.lsp.set_log_level("debug")
       local _capabilities = vim.lsp.protocol.make_client_capabilities()
-      local mason_bin = vim.fn.stdpath('data') .. '/mason/bin/'
 
       lsp.clojure_lsp.setup({
         capabilities = _capabilities
       })
 
+      lsp.crystalline.setup({
+        capabilities = _capabilities,
+      })
+
       lsp.eslint.setup({
-        cmd = { mason_bin .. 'vscode-eslint-language-server', '--stdio'},
         capabilities = _capabilities,
         settings = {
           packageManager = 'npm'
         }
       })
 
+      lsp.lua_ls.setup({
+        capabilities = _capabilities,
+        settings = {
+          Lua = {
+            runtime = {
+              -- Tell the language server which version of Lua you're using
+              -- (most likely LuaJIT in the case of Neovim)
+              version = 'LuaJIT',
+            },
+            diagnostics = {
+              -- Get the language server to recognize the `vim` global
+              globals = {
+                'vim',
+                'require'
+              },
+            },
+            workspace = {
+              -- Make the server aware of Neovim runtime files
+              library = vim.api.nvim_get_runtime_file("", true),
+            },
+            -- Do not send telemetry data containing a randomized but unique identifier
+            telemetry = {
+              enable = false,
+            },
+          },
+        }
+      })
+
       lsp.pyright.setup({
-        cmd = { mason_bin .. 'pyright' },
         capabilities = _capabilities,
       })
 
       lsp.tailwindcss.setup({
-        cmd = { mason_bin .. 'tailwindcss-language-server', "--stdio" },
-        capabilities = _capabilities,
-      })
-
-      lsp.ts_ls.setup({
-        cmd = { mason_bin .. 'typescript-language-server', "--stdio" },
         capabilities = _capabilities,
       })
 
       lsp.terraformls.setup({
-        cmd = { mason_bin .. 'terraform-ls' },
+        capabilities = _capabilities,
+      })
+
+      lsp.ts_ls.setup({
         capabilities = _capabilities,
       })
 
       lsp.zls.setup({
-        cmd = { mason_bin .. 'zls' },
         capabilities = _capabilities,
       })
 
-      lsp.crystalline.setup({
-        cmd = { mason_bin .. 'crystalline' },
-        capabilities = _capabilities,
-      })
     end
   },
   {
     "poljar/typos.nvim",
-    opts = {}
+    opts = {},
+    enabled = vim.fn.executable('typos') == 1
   },
   {
     "nvimtools/none-ls.nvim",
-    dependencies = { "mason.nvim", "typos.nvim" },
+    dependencies = {
+      --"mason.nvim",
+      "typos.nvim"
+    },
   },
   {
     "Olical/conjure",
@@ -140,10 +167,19 @@ require("lazy").setup({
     config = function ()
       local configs = require("nvim-treesitter.configs")
 
+      ---@diagnostic disable-next-line:missing-fields
       configs.setup({
-          ensure_installed = { "clojure", "go", "javascript", "html", "typescript", "haskell" },
+          ensure_installed = {
+            "clojure",
+            "go",
+            "javascript",
+            "html",
+            "typescript",
+            "haskell",
+            "zig"
+          },
           sync_install = false,
-          -- highlight = { enable = true },
+          highlight = { enable = true },
           indent = { enable = true },
       })
     end
@@ -258,6 +294,7 @@ require("lazy").setup({
       "MasonInstallAll",
       "MasonUpdate"
     },
+    enabled = true,
     keys = {
       {
         "<leader>mi<cr>",
@@ -276,6 +313,7 @@ require("lazy").setup({
         "clojure-lsp",
         "eslint-lsp",
         "haskell-language-server",
+        "lua-language-server",
         "prettier",
         "pyright",
         "tailwindcss-language-server",
@@ -287,7 +325,7 @@ require("lazy").setup({
     },
     config = function(_, opts)
       -- dofile(vim.g.base46_cache .. "mason")
-      -- require("mason").setup(opts)
+      require("mason").setup(opts)
 
       -- custom cmd to install all mason binaries listed
       vim.api.nvim_create_user_command("MasonInstallAll", function()

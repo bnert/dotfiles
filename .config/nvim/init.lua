@@ -17,7 +17,6 @@ vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
 vim.wo.wrap = true
 
-
 local function thunkquire(module, path)
   return function()
     local m = require(module)
@@ -32,7 +31,6 @@ local function thunkquire(module, path)
     return m()
   end
 end
-
 
 -- lazy nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -54,90 +52,6 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   {
     "HiPhish/rainbow-delimiters.nvim",
-  },
-  {
-    "neovim/nvim-lspconfig",
-    config = function()
-      local lsp = require('lspconfig')
-      -- vim.lsp.set_log_level("debug")
-      local _capabilities = vim.lsp.protocol.make_client_capabilities()
-
-      lsp.clojure_lsp.setup({
-        capabilities = _capabilities
-      })
-
-      lsp.crystalline.setup({
-        capabilities = _capabilities,
-      })
-
-      lsp.eslint.setup({
-        capabilities = _capabilities,
-        settings = {
-          packageManager = 'npm'
-        }
-      })
-
-      lsp.lua_ls.setup({
-        capabilities = _capabilities,
-        settings = {
-          Lua = {
-            runtime = {
-              -- Tell the language server which version of Lua you're using
-              -- (most likely LuaJIT in the case of Neovim)
-              version = 'LuaJIT',
-            },
-            diagnostics = {
-              -- Get the language server to recognize the `vim` global
-              globals = {
-                'vim',
-                'require'
-              },
-            },
-            workspace = {
-              -- Make the server aware of Neovim runtime files
-              library = vim.api.nvim_get_runtime_file("", true),
-            },
-            -- Do not send telemetry data containing a randomized but unique identifier
-            telemetry = {
-              enable = false,
-            },
-          },
-        }
-      })
-
-      lsp.pyright.setup({
-        capabilities = _capabilities,
-      })
-
-      lsp.tailwindcss.setup({
-        capabilities = _capabilities,
-      })
-
-      lsp.terraformls.setup({
-        capabilities = _capabilities,
-      })
-
-      lsp.ts_ls.setup({
-        capabilities = _capabilities,
-      })
-
-      lsp.zls.setup({
-        capabilities = _capabilities,
-      })
-
-    end
-  },
-  {
-    "poljar/typos.nvim",
-    opts = {},
-    enabled = vim.fn.executable('typos') == 1
-  },
-  {
-    "nvimtools/none-ls.nvim",
-    dependencies = {
-      --"mason.nvim",
-      "typos.nvim"
-    },
   },
   {
     "Olical/conjure",
@@ -162,6 +76,18 @@ require("lazy").setup({
     end
   },
   {
+    "FabijanZulj/blame.nvim",
+    lazy = false,
+    keys = {
+      {
+        "<leader>gb",
+        "<cmd>BlameToggle virtual<cr>",
+        desc = "Blame toggle"
+      }
+    },
+    opts = {}
+  },
+  {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     config = function ()
@@ -172,6 +98,7 @@ require("lazy").setup({
           ensure_installed = {
             "clojure",
             "go",
+            "graphql",
             "javascript",
             "html",
             "typescript",
@@ -319,6 +246,7 @@ require("lazy").setup({
         "tailwindcss-language-server",
         "terraform-ls",
         "typescript-language-server",
+        "typos-lsp",
         "zls"
       },
       max_concurrent_installers = 10,
@@ -346,6 +274,7 @@ require("lazy").setup({
       vim.g.mason_binaries_list = opts.ensure_installed
     end,
   },
+  -- needed for injecting mason config into vim env
   {
     "williamboman/mason-lspconfig.nvim",
     opts = {},
@@ -364,38 +293,22 @@ require("lazy").setup({
       },
     }
   },
-  {
-    "nvimtools/none-ls.nvim",
-    opts = {
-      on_attach = function(client, bufnr)
-        if client.supports_method("textDocument/formatting") then
-          vim.keymap.set("n", "<leader>lf", function()
-            vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
-          end, { buffer = bufnr, desc = "[lsp] format" })
+})
 
-          -- format on save
-          local group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false })
-          local event = "BufWritePre"
-          local async = event == "BufWritePost"
+vim.lsp.config('*', {
+  capabilities = vim.lsp.protocol.make_client_capabilities(),
+  root_markers = { '.git' },
+})
 
-          vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
-          vim.api.nvim_create_autocmd(event, {
-            buffer = bufnr,
-            group = group,
-            callback = function()
-              vim.lsp.buf.format({ bufnr = bufnr, async = async })
-            end,
-            desc = "[lsp] format on save",
-          })
-        end
-
-        if client.supports_method("textDocument/rangeFormatting") then
-          vim.keymap.set("x", "<leader>lf", function()
-            vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
-          end, { buffer = bufnr, desc = "[lsp] format" })
-        end
-      end
-    }
-  }
+vim.lsp.enable({
+  "clojure"
+  -- has issues, see: https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs/eslint.lua
+  --, "eslint"
+  , "lua"
+  , "python"
+  , "tailwindcss"
+  , "typescript"
+  , "typos"
+  , "zls"
 })
 

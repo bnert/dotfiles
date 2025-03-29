@@ -55,6 +55,14 @@ require("lazy").setup({
   },
   {
     "Olical/conjure",
+    opts = {},
+    lazy = false,
+    config = function()
+      -- noop
+    end,
+    init = function()
+      -- noop
+    end,
     keys = {
       {
         "<leader>rr",

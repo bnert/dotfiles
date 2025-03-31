@@ -17,6 +17,10 @@ vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
 vim.wo.wrap = true
 
+vim.diagnostic.config({
+  virtual_text = { current_line = true }
+})
+
 local function thunkquire(module, path)
   return function()
     local m = require(module)

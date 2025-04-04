@@ -18,7 +18,7 @@ vim.o.shiftwidth = 2
 vim.wo.wrap = true
 
 vim.diagnostic.config({
-  virtual_text = { current_line = true }
+  virtual_lines = { current_line = true }
 })
 
 local function thunkquire(module, path)
@@ -55,9 +55,6 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   {
-    "HiPhish/rainbow-delimiters.nvim",
-  },
-  {
     "Olical/conjure",
     opts = {},
     lazy = false,
@@ -88,18 +85,6 @@ require("lazy").setup({
     end
   },
   {
-    "FabijanZulj/blame.nvim",
-    lazy = false,
-    keys = {
-      {
-        "<leader>gb",
-        "<cmd>BlameToggle virtual<cr>",
-        desc = "Blame toggle"
-      }
-    },
-    opts = {}
-  },
-  {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     config = function ()
@@ -113,6 +98,7 @@ require("lazy").setup({
             "graphql",
             "javascript",
             "html",
+            "python",
             "typescript",
             "haskell",
             "zig"
@@ -122,61 +108,6 @@ require("lazy").setup({
           indent = { enable = true },
       })
     end
-  },
-  {
-    "folke/trouble.nvim",
-    version = "v3.6.0",
-    cmd = "Trouble",
-    opts = {},
-    keys = {
-      {
-        "<leader>xx",
-        "<cmd>Trouble diagnostics toggle<cr>",
-        desc = "Diagnostics (Trouble)",
-      },
-      {
-        "<leader>xX",
-        "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-        desc = "Buffer Diagnostics (Trouble)",
-      },
-      {
-        "<leader>cs",
-        "<cmd>Trouble symbols toggle focus=false<cr>",
-        desc = "Symbols (Trouble)",
-      },
-      {
-        "<leader>cl",
-        "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
-        desc = "LSP Definitions / references / ... (Trouble)",
-      },
-      {
-        "<leader>xL",
-        "<cmd>Trouble loclist toggle<cr>",
-        desc = "Location List (Trouble)",
-      },
-      {
-        "<leader>xQ",
-        "<cmd>Trouble qflist toggle<cr>",
-        desc = "Quickfix List (Trouble)",
-      },
-    },
-  },
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      -- "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-      "MunifTanjim/nui.nvim",
-      -- {"3rd/image.nvim", opts = {}}, -- Optional image support in preview window: See `# Preview Mode` for more information
-    },
-    keys = {
-      {
-        "<leader>tt",
-        "<cmd>Neotree<cr>",
-        desc = "Open neotree"
-      }
-    }
   },
   {
     "nvim-telescope/telescope.nvim", tag = "0.1.5",
@@ -222,6 +153,7 @@ require("lazy").setup({
     end
   },
   {
+    -- only loads for lisps :)
     "julienvincent/nvim-paredit",
     opts = {},
   },

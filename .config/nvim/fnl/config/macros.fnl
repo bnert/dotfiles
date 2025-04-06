@@ -1,3 +1,4 @@
+;; fennel-ls: macro-file
 ;; [nfnl-macro]
 
 ; Thanks Olical: https://github.com/Olical/dotfiles/blob/141e82ef966ff42e6eda854263c2a7f9a34b56c9/stowed/.config/nvim/fnl/config/macros.fnl

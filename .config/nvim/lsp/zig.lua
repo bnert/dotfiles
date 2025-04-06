@@ -1,5 +1,5 @@
 return {
-  cmd = { vim.env.MASON .. "/bin/zls" },
+  cmd = { "zls" },
   filetypes = { "zig", "zir" },
   root_markers = { "zls.json", "build.zig", ".git" },
   singe_file_support = true,

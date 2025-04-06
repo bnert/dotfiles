@@ -28,4 +28,4 @@ local function config(_, opts0)
   end
   return nil
 end
-return {"williamboman/mason.nvim", cmd = {"Mason", "MasonInstall", "MasonInstallAll", "MasonUpdate"}, config = config, enabled = true, opts = opts}
+return {"williamboman/mason.nvim", cmd = {"Mason", "MasonInstall", "MasonInstallAll", "MasonUpdate"}, config = config, enabled = true, opts = opts, tag = "v1.10.0"}

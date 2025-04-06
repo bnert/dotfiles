@@ -1,5 +1,5 @@
 return {
-  cmd = { vim.env.MASON .. "/bin/tailwindcss-language-server", "--stdio" },
+  cmd = { "tailwindcss-language-server", "--stdio" },
   -- filetypes copied and adjusted from tailwindcss-intellisense
   filetypes = {
     -- html

@@ -37,6 +37,7 @@
 
 (tx "williamboman/mason.nvim"
   {:cmd     ["Mason" "MasonInstall" "MasonInstallAll" "MasonUpdate"]
+   :tag     "v1.10.0"
    :config  config
    :enabled true
    :opts    opts})

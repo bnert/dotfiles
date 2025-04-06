@@ -10,7 +10,7 @@ local root_files = {
 }
 
 return {
-  cmd = { vim.env.MASON .. "/bin/lua-language-server" },
+  cmd = { "lua-language-server" },
   filetypes = { "lua" },
   root_markers = root_files,
   single_file_support = true,

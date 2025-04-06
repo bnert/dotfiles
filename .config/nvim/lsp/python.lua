@@ -41,7 +41,7 @@ local function set_python_path(path)
 end
 
 return {
-  cmd = { vim.env.MASON .. "/bin/pyright-langserver", "--stdio" },
+  cmd = { "pyright-langserver", "--stdio" },
   filetypes = { "python" },
   root_markers = root_markers,
   single_file_support = true,

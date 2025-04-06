@@ -11,7 +11,7 @@ local filetypes = {
 }
 
 return {
-  cmd = { vim.env.MASON .. "/bin/typescript-language-server", "--stdio" },
+  cmd = { "typescript-language-server", "--stdio" },
   init_options = { hostInfo = "neovim" },
   filetypes = filetypes,
   root_markers = { "package.json", "tsconfig.json" },

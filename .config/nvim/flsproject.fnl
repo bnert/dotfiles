@@ -10,5 +10,7 @@
      : fennel-path
      : macro-path}))
 
-{:extra-globals "vim"
+{:fennel-path   "fnl/?/?/?.fnl;fnl/?/?.fnl;fnl/?.fnl;./init.fnl"
+ :macro-path    "fnl/config/macros.fnl"
+ :extra-globals "vim"
  :lua-version   "lua5.4"}

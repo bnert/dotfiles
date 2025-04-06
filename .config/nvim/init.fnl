@@ -27,7 +27,7 @@
 (vim.lsp.enable
   [:clojure
    ; issues: https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs/eslint.lua
-   ;"eslint
+   ; :eslint
    :fennel
    :lua
    :python
@@ -35,5 +35,7 @@
    :typescript
    :typos
    :zls])
+
+(vim.keymap.set "n" "<leader>lar" vim.lsp.buf.rename {:desc "LSP Rename"})
 
 {}

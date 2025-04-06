@@ -27,7 +27,7 @@ local root_markers = {
 }
 
 return {
-  cmd = { vim.env.MASON .. "/bin/vscode-eslint-language-server", "--stdio" },
+  cmd = { "vscode-eslint-language-server", "--stdio" },
   filetypes = filetypes,
   root_markers = root_markers,
   single_file_support = true

@@ -34,7 +34,7 @@
    :tailwindcss
    :typescript
    :typos
-   :zls])
+   :zig])
 
 (vim.keymap.set "n" "<leader>lar" vim.lsp.buf.rename {:desc "LSP Rename"})
 

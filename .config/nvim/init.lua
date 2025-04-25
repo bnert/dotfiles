@@ -18,6 +18,6 @@ vim.wo.wrap = true
 vim.diagnostic.config = {virtual_lines = {current_line = true}}
 require("config.lazy")
 vim.lsp.config("*", {capabilities = vim.lsp.protocol.make_client_capabilities(), root_markers = {".git"}})
-vim.lsp.enable({"clojure", "fennel", "lua", "python", "tailwindcss", "typescript", "typos", "zls"})
+vim.lsp.enable({"clojure", "fennel", "lua", "python", "tailwindcss", "typescript", "typos", "zig"})
 vim.keymap.set("n", "<leader>lar", vim.lsp.buf.rename, {desc = "LSP Rename"})
 return {}

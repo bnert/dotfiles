@@ -20,7 +20,7 @@
 
 (fn noop [])
 
-(set vim.g.conjure#mapping#doc_word "K")
+(set _G.vim.g.conjure#mapping#doc_word "K")
 ; (set vim.g.conjure#filetype#fennel "conjure.client.fennel.nfnl")
 ; (set vim.g.conjure#client#sql#stdio#command "psql -h localhost -U blogger -d postgres")
 

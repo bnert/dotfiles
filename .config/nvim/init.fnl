@@ -40,6 +40,7 @@
 (_G.vim.keymap.set "n" "<leader>lar" _G.vim.lsp.buf.rename {:desc "LSP Rename"})
 (_G.vim.keymap.set "n" "<leader>lah" _G.vim.lsp.buf.hover {:desc "LSP Hover"})
 (_G.vim.keymap.set "n" "<leader>df" _G.vim.diagnostic.open_float {:desc "Diagnostics Float"})
+; These don't seem to work...?
 (_G.vim.keymap.set "n" "<leader>dn" _G.vim.diagnostic.get_next {:desc "Diagnostics: next issue"})
 (_G.vim.keymap.set "n" "<leader>dp" _G.vim.diagnostic.get_prev {:desc "Diagnostics: prev issue"})
 (_G.vim.keymap.set "n" "<leader>ds" _G.vim.diagnostic.show {:desc "Diagnostics Show"})

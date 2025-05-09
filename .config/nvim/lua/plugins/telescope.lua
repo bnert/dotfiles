@@ -1,4 +1,4 @@
--- [nfnl] Compiled from fnl/plugins/telescope.fnl by https://github.com/Olical/nfnl, do not edit.
+-- [nfnl] fnl/plugins/telescope.fnl
 local function thunk(module, func)
   local function _1_()
     local m = require(module)

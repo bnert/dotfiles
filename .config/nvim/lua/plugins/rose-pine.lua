@@ -1,4 +1,4 @@
--- [nfnl] Compiled from fnl/plugins/rose-pine.fnl by https://github.com/Olical/nfnl, do not edit.
+-- [nfnl] fnl/plugins/rose-pine.fnl
 local function _1_()
   vim.cmd("colorscheme rose-pine-dawn")
   return nil

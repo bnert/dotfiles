@@ -1,12 +1,12 @@
 {
-  "conjure": { "branch": "main", "commit": "980452d93fd6165d3f268f50a181ad7ca4c7b990" },
+  "conjure": { "branch": "master", "commit": "8aed42faf4cb44663d06883d9733c89180260daa" },
   "diffview.nvim": { "branch": "main", "commit": "4516612fe98ff56ae0415a259ff6361a89419b0a" },
   "lazy.nvim": { "branch": "main", "commit": "6c3bda4aca61a13a9c63f1c1d1b16b9d3be90d7a" },
-  "nfnl": { "branch": "main", "commit": "2358f508932d5cc3d22e1999519020eb86956383" },
+  "nfnl": { "branch": "main", "commit": "6bcfdc4ab9f23c381590d78fa55ee79abebbe9c5" },
   "nvim-paredit": { "branch": "master", "commit": "a7b22f211cd96fc8a4bb2c40eff5eeb04ce332ea" },
-  "nvim-treesitter": { "branch": "master", "commit": "523a9e148919f58eb5a013f76787e57696e00c93" },
+  "nvim-treesitter": { "branch": "master", "commit": "28d480e0624b259095e56f353ec911f9f2a0f404" },
   "plenary.nvim": { "branch": "master", "commit": "857c5ac632080dba10aae49dba902ce3abf91b35" },
-  "rose-pine-dawn": { "branch": "main", "commit": "96ff3993a67356ee85d1cdab9be652cdc1c5d1ac" },
+  "rose-pine-dawn": { "branch": "main", "commit": "491a0c77abc7ecb955c27a974091a5968232995f" },
   "telescope-file-browser.nvim": { "branch": "master", "commit": "626998e5c1b71c130d8bc6cf7abb6709b98287bb" },
   "telescope.nvim": { "branch": "master", "commit": "a4ed82509cecc56df1c7138920a1aeaf246c0ac5" }
 }

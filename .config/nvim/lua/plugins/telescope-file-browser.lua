@@ -1,4 +1,4 @@
--- [nfnl] Compiled from fnl/plugins/telescope-file-browser.fnl by https://github.com/Olical/nfnl, do not edit.
+-- [nfnl] fnl/plugins/telescope-file-browser.fnl
 local function load_extension()
   local telescope = require("telescope")
   return telescope.load_extension("file_browser")

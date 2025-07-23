@@ -7,7 +7,7 @@ echo "unpacking fonts"
 if [[ "Linux" == "${kernel}" ]]; then
   echo "unpacking linux fonts"
   mkdir -p $HOME/.fonts
-  cp $tld/fonts/jetbrains-mono/fonts/ttf/* $HOME/.fonts/
+  cp $tld/fonts/atkinson-mono/static/* $HOME/.fonts/
   if [ command -v fc-cache &> /dev/null ]; then
     echo "refreshing font cache"
     fc-cache -f -v
@@ -26,7 +26,7 @@ fi
 
 if [[ "Darwin" == "${kernel}" ]]; then
   echo "unpacking macos fonts"
-  cp $tld/fonts/jetbrains-mono/fonts/ttf/* $HOME/Library/Fonts/
+  cp $tld/fonts/atkinson-mono/static/* $HOME/Library/Fonts/
 fi
 
 echo "linking directories: ghostty kitty neovim .clojure"
@@ -35,27 +35,17 @@ echo "linking directories: ghostty kitty neovim .clojure"
 [ -d "$HOME/.config/ghostty/" ] && [ ! -L "$HOME/.config/ghostty" ] && rm -rf $HOME/.config/ghostty/ || echo "ghostty link exists"
 [ ! -L "$HOME/.config/ghostty" ] && ln -sf $tld/.config/ghostty/ $HOME/.config/ghostty
 
-
-## kitty config
-[ -d "$HOME/.config/kitty/" ] && [ ! -L "$HOME/.config/kitty" ] && rm -rf $HOME/.config/kitty/ || echo "kitty link exists"
-[ ! -L "$HOME/.config/kitty" ] && ln -sf $tld/.config/kitty/ $HOME/.config/kitty
-
 ## neovim config
 [ -d "$HOME/.config/nvim/" ] && [ ! -L "$HOME/.config/nvim" ] && rm -rf $HOME/.config/nvim/ || echo "nvim link exists"
 [ ! -L "$HOME/.config/nvim" ] && ln -sf $tld/.config/nvim/ $HOME/.config/nvim
-
 
 ## neovim clojure lsp
 [ -d "$HOME/.config/clojure-lsp" ] && [ ! -L "$HOME/.config/clojure-lsp" ] && rm -rf $HOME/.config/clojure-lsp || echo "clojure-lsp link exists"
 [ ! -L "$HOME/.config/clojure-lsp" ] && ln -sf $tld/.config/clojure-lsp/ $HOME/.config/clojure-lsp
 
-
 ## .clojure directory
 [ -d "$HOME/.clojure" ] && [ ! -L "$HOME/.clojure" ] && rm -rf $HOME/.clojure || echo ".clojure link exists"
 [ ! -L "$HOME/.clojure" ] && ln -sf $tld/.clojure $HOME/.clojure
-
-echo "linking files: tmux.conf"
-ln -sf $tld/.tmux.conf $HOME/.tmux.conf
 
 echo "linking bash profile"
 

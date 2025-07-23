@@ -2,3 +2,4 @@
 .clojure/.cpcache
 .clojure/.clj-kondo/.cache
 .clojure/.lsp/
+.sql

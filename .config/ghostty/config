@@ -1,6 +1,6 @@
 # theme = catppucin-latte
 # theme = rose-pine-dawn
-theme = "NvimLight"
+theme = "Nvim Light"
 window-padding-x = 8
 window-padding-y = 8
 font-family = "Atkinson Hyperlegible Mono"
